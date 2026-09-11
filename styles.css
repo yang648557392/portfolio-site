@@ -170,6 +170,10 @@ h1 {
   background: var(--surface);
 }
 
+.project-card + .project-card {
+  margin-top: 24px;
+}
+
 .project-number {
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
