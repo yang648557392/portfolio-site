@@ -34,12 +34,14 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          IMAGE_TAG: ${{ github.event.workflow_run.head_sha }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "$DEPLOY_USER@$DEPLOY_HOST" '
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "$DEPLOY_USER@$DEPLOY_HOST" "
             set -e
             cd /home/ubuntu/apps/portfolio-site
             git pull --ff-only origin main
-            sudo docker compose up -d --build
-          '
+            sudo IMAGE_TAG='$IMAGE_TAG' docker compose pull
+            sudo IMAGE_TAG='$IMAGE_TAG' docker compose up -d
+          "
       - name: Verify public website
         run: curl --fail --silent --show-error --retry 5 --retry-delay 3 https://yangmingzhe.com/ > /dev/null

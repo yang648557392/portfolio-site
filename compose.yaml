@@ -1,6 +1,6 @@
 services:
   portfolio:
-    build: .
+    image: ghcr.io/yang648557392/portfolio-site:${IMAGE_TAG:-latest}
     restart: unless-stopped
     ports:
       - "127.0.0.1:8081:80"
